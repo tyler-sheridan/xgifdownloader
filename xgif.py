@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from urllib.parse import urlsplit, urlunsplit
 
 
 def run_command(cmd: list[str], error_message: str) -> None:
@@ -114,6 +115,20 @@ def build_output_path(user_output: str | None, url: str) -> Path:
 
     safe_name = "x_post.gif"
     return Path.cwd() / safe_name
+
+def normalize_x_url(url: str) -> str:
+    """
+    Remove query parameters and fragments from X/Twitter URLs.
+    """
+    parts = urlsplit(url.strip())
+
+    return urlunsplit((
+        parts.scheme,
+        parts.netloc,
+        parts.path.rstrip("/"),
+        "",  # remove query string
+        "",  # remove fragment
+    ))
 
 
 def main() -> None:
