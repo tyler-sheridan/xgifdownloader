@@ -4,6 +4,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import random
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
@@ -113,8 +114,8 @@ def build_output_path(user_output: str | None, url: str) -> Path:
             output = output.with_suffix(".gif")
         return output
 
-    safe_name = "x_post.gif"
-    return Path.cwd() / safe_name
+    random_filename = f"{random.randint(100_000_000_000, 999_999_999_999)}.gif"
+    return Path.cwd() / random_filename
 
 def normalize_x_url(url: str) -> str:
     """
